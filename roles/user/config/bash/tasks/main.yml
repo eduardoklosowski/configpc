@@ -1,0 +1,13 @@
+- name: verifica configuração
+  ansible.builtin.stat:
+    path: '{{ user_config_dir }}/bash'
+  register: config
+  when: user_config_dir is defined
+
+- name: configura bashrc
+  ansible.builtin.file:
+    src: '{{ user_config_dir }}/bash/bashrc'
+    path: '{{ ansible_user_dir }}/.bashrc'
+    state: link
+    force: true
+  when: user_config_dir is defined and config.stat.exists
