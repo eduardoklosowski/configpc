@@ -1,0 +1,43 @@
+- name: instala pacote básico
+  ansible.builtin.apt:
+    name: vim
+  become: true
+  when: vim_type == 'basic'
+
+- name: instala pacote completo sem interface gráfica
+  ansible.builtin.apt:
+    name:
+      - vim-nox
+      - universal-ctags
+  become: true
+  when: vim_type == 'full' and (system_graphic is not defined or not system_graphic)
+
+- name: instala pacote completo com interface gráfica
+  ansible.builtin.apt:
+    name:
+      - vim-gtk3
+      - universal-ctags
+  become: true
+  when: vim_type == 'full' and system_graphic is defined and system_graphic
+
+- name: verifica configuração
+  ansible.builtin.stat:
+    path: '{{ user_config_dir }}/vim'
+  register: config
+  when: user_config_dir is defined
+
+- name: configura vimrc
+  ansible.builtin.file:
+    src: '{{ user_config_dir }}/vim/vimrc'
+    path: '{{ ansible_user_dir }}/.vimrc'
+    state: link
+    force: true
+  when: user_config_dir is defined and config.stat.exists
+
+- name: configura gvimrc
+  ansible.builtin.file:
+    src: '{{ user_config_dir }}/vim/gvimrc'
+    path: '{{ ansible_user_dir }}/.gvimrc'
+    state: link
+    force: true
+  when: user_config_dir is defined and config.stat.exists and system_graphic is defined and system_graphic
