@@ -1,0 +1,10 @@
+- name: instala pacote
+  ansible.builtin.apt:
+    name: gzip
+  become: true
+
+- name: instala pacote paralelo
+  ansible.builtin.apt:
+    name: pigz
+  become: true
+  when: system_archive_parallel is defined and system_archive_parallel
