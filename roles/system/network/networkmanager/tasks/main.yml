@@ -1,0 +1,30 @@
+- name: instala pacote
+  ansible.builtin.apt:
+    name: network-manager
+  become: true
+
+- name: instala pacote para cache de DNS
+  ansible.builtin.apt:
+    name:
+      - dnsmasq-base
+      - dns-root-data
+  become: true
+  when: networkmanager_dns_cache
+
+- name: configura cache de DNS
+  community.general.ini_file:
+    path: /etc/NetworkManager/NetworkManager.conf
+    section: main
+    option: dns
+    value: dnsmasq
+    state: '{% if networkmanager_dns_cache %}present{% else %}absent{% endif %}'
+    create: false
+    no_extra_spaces: true
+  become: true
+  notify: reinicia network-manager
+
+- name: instala utilitários gráficos
+  ansible.builtin.apt:
+    name: network-manager-gnome
+  become: true
+  when: system_graphic is defined and system_graphic and networkmanager_utils
