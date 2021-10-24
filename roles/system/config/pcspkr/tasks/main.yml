@@ -1,0 +1,11 @@
+- name: remove módulo
+  community.general.modprobe:
+    name: pcspkr
+    state: absent
+  become: true
+
+- name: adiciona módulo na blacklist
+  community.general.kernel_blacklist:
+    name: pcspkr
+    blacklist_file: /etc/modprobe.d/pcspkr-blacklist.conf
+  become: true
