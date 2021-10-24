@@ -1,0 +1,6 @@
+- name: instala pacote
+  ansible.builtin.apt:
+    name:
+      - texlive-latex-recommended
+      - texlive-lang-{{ latex_lang }}
+  become: true
