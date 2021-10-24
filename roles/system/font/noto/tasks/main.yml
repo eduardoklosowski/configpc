@@ -1,0 +1,16 @@
+- name: instala pacote
+  ansible.builtin.apt:
+    name: fonts-noto-core
+  become: true
+
+- name: instala pacote cjk
+  ansible.builtin.apt:
+    name: fonts-noto-cjk
+  become: true
+  when: noto_cjk
+
+- name: instala pacote emoji
+  ansible.builtin.apt:
+    name: fonts-noto-color-emoji
+  become: true
+  when: noto_emoji
