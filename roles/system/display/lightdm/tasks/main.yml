@@ -1,0 +1,40 @@
+- name: instala pacote para tela de login
+  ansible.builtin.apt:
+    name:
+      - lightdm
+      - lightdm-gtk-greeter
+  become: true
+  when: not lightdm_autologin
+
+- name: configura tela de login
+  ansible.builtin.template:
+    src: listusers.conf.j2
+    dest: /usr/share/lightdm/lightdm.conf.d/90_listusers.conf
+    mode: 0644
+  become: true
+  when: not lightdm_autologin
+
+- name: instala pacote para autologin
+  ansible.builtin.apt:
+    name:
+      - lightdm
+      - lightdm-autologin-greeter
+  become: true
+  when: lightdm_autologin
+
+- name: configura autologin
+  community.general.ini_file:
+    path: /etc/lightdm/lightdm.conf.d/lightdm-autologin-greeter.conf
+    section: Seat:*
+    option: autologin-user
+    value: '{{ ansible_user_id }}'
+    create: false
+    no_extra_spaces: true
+  become: true
+  when: lightdm_autologin
+
+- name: instala bloqueio de tela
+  ansible.builtin.apt:
+    name: light-locker
+  become: true
+  when: lightdm_lockscreen
