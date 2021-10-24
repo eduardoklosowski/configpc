@@ -1,0 +1,25 @@
+- name: instala pacote
+  ansible.builtin.apt:
+    name:
+      - libvirt-daemon-system
+      - qemu-system-x86
+      - qemu-utils
+      - ovmf
+  become: true
+
+- name: instala pacotes gráfico
+  ansible.builtin.apt:
+    name:
+      - qemu-system-gui
+      - virt-manager
+      - gir1.2-spiceclientgtk-3.0
+  become: true
+  when: system_graphic is defined and system_graphic
+
+- name: adiciona usuário no grupo
+  ansible.builtin.user:
+    name: '{{ ansible_user_id }}'
+    groups:
+      - libvirt
+    append: true
+  become: true
