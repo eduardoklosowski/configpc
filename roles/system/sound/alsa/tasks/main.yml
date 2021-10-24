@@ -1,0 +1,10 @@
+- name: instala pacote
+  ansible.builtin.apt:
+    name: libasound2
+  become: true
+
+- name: instala utilitários
+  ansible.builtin.apt:
+    name: alsa-utils
+  become: true
+  when: alsa_utils
