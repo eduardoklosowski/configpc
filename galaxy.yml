@@ -1,0 +1,14 @@
+namespace: eduardoklosowski
+name: configpc
+version: 0.1.0
+readme: README.md
+authors:
+  - Eduardo Klosowski <eduardo_klosowski@yahoo.com>
+description: Configuração para computadores
+license:
+  - MIT
+tags: []
+dependencies: {}
+repository: http://github.com/eduardoklosowski/configpc
+issues: http://github.com/eduardoklosowski/configpc/issues
+build_ignore: []
