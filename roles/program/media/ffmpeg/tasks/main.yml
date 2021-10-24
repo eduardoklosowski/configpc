@@ -1,0 +1,10 @@
+- name: instala pacote
+  ansible.builtin.apt:
+    name: ffmpeg
+  become: true
+
+- name: instala integração com gstreamer
+  ansible.builtin.apt:
+    name: gstreamer1.0-libav
+  become: true
+  when: system_gstreamer is defined and system_gstreamer
