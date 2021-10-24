@@ -1,0 +1,4 @@
+- name: instala pacote
+  ansible.builtin.apt:
+    name: aspell-{{ aspell_lang }}
+  become: true
