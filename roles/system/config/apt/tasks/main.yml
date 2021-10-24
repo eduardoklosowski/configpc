@@ -1,0 +1,19 @@
+- name: configura recomendações e sugestões
+  ansible.builtin.template:
+    src: recommends.j2
+    dest: /etc/apt/apt.conf.d/01recommends
+    mode: 0644
+  become: true
+
+- name: atualiza cache dos repositórios
+  ansible.builtin.apt:
+    update_cache: true
+  become: true
+
+- name: instala utilitários
+  ansible.builtin.apt:
+    name:
+      - aptitude
+      - deborphan
+  become: true
+  when: apt_utils

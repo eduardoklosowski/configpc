@@ -1,0 +1,2 @@
+APT::Install-Recommends "{% if apt_install_recommends %}1{% else %}0{% endif %}";
+APT::Install-Suggests "{% if apt_install_suggests %}1{% else %}0{% endif %}";
