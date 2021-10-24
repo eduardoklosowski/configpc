@@ -1,0 +1,8 @@
+- name: define permissão
+  ansible.builtin.file:
+    path: /opt
+    state: directory
+    mode: 0755
+    owner: '{{ ansible_user_id }}'
+    group: '{{ ansible_user_id }}'
+  become: true
