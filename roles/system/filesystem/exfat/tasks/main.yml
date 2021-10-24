@@ -1,0 +1,6 @@
+- name: instala pacote
+  ansible.builtin.apt:
+    name:
+      - exfat-utils
+      - exfat-fuse
+  become: true
