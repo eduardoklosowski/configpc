@@ -1,0 +1,18 @@
+- name: instala pacote
+  ansible.builtin.apt:
+    name:
+      - gcc
+      - libc6-dev
+  become: true
+
+- name: instala documentação
+  ansible.builtin.apt:
+    name: manpages-dev
+  become: true
+  when: c_manpages
+
+- name: instala documentação traduzida
+  ansible.builtin.apt:
+    name: manpages-{{ c_manpages_lang }}-dev
+  become: true
+  when: c_manpages and c_manpages_lang
