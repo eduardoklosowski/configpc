@@ -1,0 +1,6 @@
+- name: configura swappiness
+  ansible.posix.sysctl:
+    sysctl_file: /etc/sysctl.d/swap.conf
+    name: vm.swappiness
+    value: '{{ swap_swappiness|string }}'
+  become: true
