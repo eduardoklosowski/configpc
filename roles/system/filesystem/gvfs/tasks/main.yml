@@ -1,0 +1,7 @@
+- name: instala pacote
+  ansible.builtin.apt:
+    name:
+      - gvfs
+      - gvfs-backends
+      - gvfs-fuse
+  become: true
