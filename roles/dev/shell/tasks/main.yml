@@ -1,0 +1,4 @@
+- name: instala lint
+  ansible.builtin.apt:
+    name: shellcheck
+  become: true
