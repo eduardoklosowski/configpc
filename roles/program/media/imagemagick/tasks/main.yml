@@ -1,0 +1,4 @@
+- name: instala pacote
+  ansible.builtin.apt:
+    name: graphicsmagick-imagemagick-compat
+  become: true
