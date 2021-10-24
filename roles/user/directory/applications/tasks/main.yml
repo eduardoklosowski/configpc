@@ -1,0 +1,9 @@
+- name: define diretório
+  ansible.builtin.set_fact:
+    user_applications_dir: '{{ ansible_user_dir }}/.local/share/applications'
+
+- name: cria diretório
+  ansible.builtin.file:
+    path: '{{ user_applications_dir }}'
+    state: directory
+    mode: 0755
