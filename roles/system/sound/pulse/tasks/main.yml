@@ -1,0 +1,36 @@
+- name: instala pacote
+  ansible.builtin.apt:
+    name: pulseaudio
+  become: true
+
+- name: configura sample rate padrão
+  ansible.builtin.replace:
+    path: /etc/pulse/daemon.conf
+    regexp: ^;? *default-sample-rate *= *.*
+    replace: '{% if pulse_default_sample is none %}; {% endif %}default-sample-rate = {% if pulse_default_sample is not none %}{{ pulse_default_sample }}{% else %}44100{% endif %}'
+  become: true
+
+- name: configura sample rate alternativo
+  ansible.builtin.replace:
+    path: /etc/pulse/daemon.conf
+    regexp: ^;? *alternate-sample-rate *= *.*
+    replace: '{% if pulse_alternate_sample is none %}; {% endif %}alternate-sample-rate = {% if pulse_alternate_sample is not none %}{{ pulse_alternate_sample }}{% else %}48000{% endif %}'
+  become: true
+
+- name: instala utilitários
+  ansible.builtin.apt:
+    name: pamix
+  become: true
+  when: pulse_utils
+
+- name: instala utilitários gráficos
+  ansible.builtin.apt:
+    name: pavucontrol
+  become: true
+  when: system_graphic is defined and system_graphic and pulse_utils
+
+- name: instala integração com gstreamer
+  ansible.builtin.apt:
+    name: gstreamer1.0-pulseaudio
+  become: true
+  when: system_gstreamer is defined and system_gstreamer
