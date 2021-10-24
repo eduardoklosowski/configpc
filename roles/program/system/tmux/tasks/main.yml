@@ -1,0 +1,18 @@
+- name: instala pacote
+  ansible.builtin.apt:
+    name: tmux
+  become: true
+
+- name: verifica configuração
+  ansible.builtin.stat:
+    path: '{{ user_config_dir }}/tmux'
+  register: config
+  when: user_config_dir is defined
+
+- name: configura tmux.conf
+  ansible.builtin.file:
+    src: '{{ user_config_dir }}/tmux/tmux.conf'
+    path: '{{ ansible_user_dir }}/.tmux.conf'
+    state: link
+    force: true
+  when: user_config_dir is defined and config.stat.exists
