@@ -1,0 +1,4 @@
+- name: instala pacote
+  ansible.builtin.apt:
+    name: odt2txt
+  become: true
