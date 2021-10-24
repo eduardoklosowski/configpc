@@ -1,0 +1,30 @@
+- name: instala pacote
+  ansible.builtin.apt:
+    name: git
+  become: true
+
+- name: instala utilitários
+  ansible.builtin.apt:
+    name: tig
+  become: true
+  when: git_utils
+
+- name: instala utilitários gráficos
+  ansible.builtin.apt:
+    name: gitk
+  become: true
+  when: system_graphic is defined and system_graphic and git_utils
+
+- name: verifica configuração
+  ansible.builtin.stat:
+    path: '{{ user_config_dir }}/git'
+  register: config
+  when: user_config_dir is defined
+
+- name: configura gitconfig
+  ansible.builtin.file:
+    src: '{{ user_config_dir }}/git/gitconfig'
+    path: '{{ ansible_user_dir }}/.gitconfig'
+    state: link
+    force: true
+  when: user_config_dir is defined and config.stat.exists
