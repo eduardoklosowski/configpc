@@ -1,0 +1,45 @@
+- name: instala driver de vídeo para KVM
+  ansible.builtin.apt:
+    name: xserver-xorg-video-qxl
+  become: true
+  when: ansible_virtualization_type == 'kvm' and ansible_virtualization_role == 'guest'
+
+- name: instala driver de entrada
+  ansible.builtin.apt:
+    name: xserver-xorg-input-all
+  become: true
+
+- name: instal driver para touchpad
+  ansible.builtin.apt:
+    name: xserver-xorg-input-synaptics
+  become: true
+  when: system_notebook is defined and system_notebook
+
+- name: instala pacote
+  ansible.builtin.apt:
+    name: xorg
+  become: true
+
+- name: instala utilitários
+  ansible.builtin.apt:
+    name: mesa-utils
+  become: true
+  when: xorg_utils
+
+- name: instala vulkan
+  ansible.builtin.apt:
+    name: mesa-vulkan-drivers
+  become: true
+  when: vulkan_driver == 'mesa'
+
+- name: instala utilitários do vulkan
+  ansible.builtin.apt:
+    name: vulkan-tools
+  become: true
+  when: vulkan_driver is not none and xorg_utils
+
+- name: instala agente do KVM
+  ansible.builtin.apt:
+    name: spice-vdagent
+  become: true
+  when: ansible_virtualization_type == 'kvm' and ansible_virtualization_role == 'guest'
