@@ -1,0 +1,16 @@
+- name: cria diretório
+  ansible.builtin.file:
+    path: '{{ ansible_user_dir }}/Desktop'
+    state: directory
+    mode: 0755
+
+- name: cria arquivo user-dirs.dirs
+  ansible.builtin.command:
+    cmd: xdg-user-dirs-update
+    creates: '{{ ansible_user_dir }}/.config/user-dirs.dirs'
+
+- name: configura xdg
+  ansible.builtin.replace:
+    path: '{{ ansible_user_dir }}/.config/user-dirs.dirs'
+    regexp: ^XDG_DESKTOP_DIR=.*
+    replace: XDG_DESKTOP_DIR="$HOME/Desktop"
