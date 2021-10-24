@@ -1,0 +1,10 @@
+- name: instala pacote
+  ansible.builtin.apt:
+    name: dmz-cursor-theme
+  become: true
+
+- name: define como alternativa
+  community.general.alternatives:
+    name: x-cursor-theme
+    path: /usr/share/icons/DMZ-White/cursor.theme
+  become: true
