@@ -1,0 +1,5 @@
+{% if sudo_nopasswd %}
+{{ ansible_user_id }} ALL=(ALL) NOPASSWD:ALL
+{% else %}
+{{ ansible_user_id }} ALL=(ALL:ALL) ALL
+{% endif %}

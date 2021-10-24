@@ -1,0 +1,11 @@
+- name: instala pacote
+  ansible.builtin.apt:
+    name: sudo
+  become: true
+
+- name: adiciona permissão para o usuário
+  ansible.builtin.template:
+    src: user.j2
+    dest: /etc/sudoers.d/user
+    mode: 0440
+  become: true
