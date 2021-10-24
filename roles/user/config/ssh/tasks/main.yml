@@ -1,0 +1,20 @@
+- name: verifica configuração
+  ansible.builtin.stat:
+    path: '{{ user_config_dir }}/ssh'
+  register: config
+  when: user_config_dir is defined
+
+- name: cria diretório de configuração
+  ansible.builtin.file:
+    path: '{{ ansible_user_dir }}/.ssh'
+    state: directory
+    mode: 0700
+  when: user_config_dir is defined and config.stat.exists
+
+- name: configura config
+  ansible.builtin.file:
+    src: '{{ user_config_dir }}/ssh/config'
+    path: '{{ ansible_user_dir }}/.ssh/config'
+    state: link
+    force: true
+  when: user_config_dir is defined and config.stat.exists
