@@ -1,0 +1,6 @@
+- name: instala pacote
+  ansible.builtin.apt:
+    name:
+      - zip
+      - unzip
+  become: true
