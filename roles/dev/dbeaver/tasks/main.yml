@@ -1,0 +1,15 @@
+- name: adiciona chave do repositório
+  ansible.builtin.apt_key:
+    url: https://dbeaver.io/debs/dbeaver.gpg.key
+  become: true
+
+- name: adiciona repositório
+  ansible.builtin.apt_repository:
+    repo: deb [arch=amd64] https://dbeaver.io/debs/dbeaver-ce /
+    filename: dbeaver
+  become: true
+
+- name: instala pacote
+  ansible.builtin.apt:
+    name: dbeaver-ce
+  become: true
