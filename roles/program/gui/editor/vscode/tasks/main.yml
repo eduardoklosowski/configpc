@@ -1,0 +1,44 @@
+- name: adiciona chave do repositório
+  ansible.builtin.apt_key:
+    url: https://packages.microsoft.com/keys/microsoft.asc
+  become: true
+
+- name: adiciona repositório
+  ansible.builtin.apt_repository:
+    repo: deb [arch=amd64] https://packages.microsoft.com/repos/code stable main
+    filename: vscode
+  become: true
+
+- name: instala pacote
+  ansible.builtin.apt:
+    name: code
+  become: true
+
+- name: verifica configuração
+  ansible.builtin.stat:
+    path: '{{ user_config_dir }}/vscode'
+  register: config
+  when: user_config_dir is defined
+
+- name: cria diretório de configuração
+  ansible.builtin.file:
+    path: '{{ ansible_user_dir }}/.config/Code/User'
+    state: directory
+    mode: 0755
+  when: user_config_dir is defined and config.stat.exists
+
+- name: configura settings.json
+  ansible.builtin.file:
+    src: '{{ user_config_dir }}/vscode/settings.json'
+    path: '{{ ansible_user_dir }}/.config/Code/User/settings.json'
+    state: link
+    force: true
+  when: user_config_dir is defined and config.stat.exists
+
+- name: configura snippets
+  ansible.builtin.file:
+    src: '{{ user_config_dir }}/vscode/snippets'
+    path: '{{ ansible_user_dir }}/.config/Code/User/snippets'
+    state: link
+    force: true
+  when: user_config_dir is defined and config.stat.exists
