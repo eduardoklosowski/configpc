@@ -1,0 +1,6 @@
+- name: baixa programa
+  ansible.builtin.unarchive:
+    remote_src: yes
+    src: https://telegram.org/dl/desktop/linux
+    dest: /opt
+    creates: /opt/Telegram/Telegram
