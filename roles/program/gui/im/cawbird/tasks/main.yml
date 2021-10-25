@@ -1,0 +1,15 @@
+- name: adiciona chave do repositório
+  ansible.builtin.apt_key:
+    url: https://download.opensuse.org/repositories/home:IBBoard:cawbird/{{ ansible_distribution }}_{{ ansible_distribution_version }}/Release.key
+  become: true
+
+- name: adiciona repositório
+  ansible.builtin.apt_repository:
+    repo: deb [arch=amd64] https://download.opensuse.org/repositories/home:/IBBoard:/cawbird/{{ ansible_distribution }}_{{ ansible_distribution_version }}/ /
+    filename: cawbird
+  become: true
+
+- name: instala pacote
+  ansible.builtin.apt:
+    name: cawbird
+  become: true
