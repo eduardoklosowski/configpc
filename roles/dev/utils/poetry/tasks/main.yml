@@ -1,0 +1,4 @@
+- name: instala pacote
+  ansible.builtin.command:
+    cmd: pipx install poetry
+    creates: '{{ ansible_user_dir }}/.local/bin/poetry'
