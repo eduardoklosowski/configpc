@@ -1,0 +1,27 @@
+- name: instala pacote
+  ansible.builtin.apt:
+    name:
+      - libreoffice-writer
+      - libreoffice-math
+      - libreoffice-calc
+      - libreoffice-impress
+      - libreoffice-{{ libreoffice_integration }}
+  become: true
+
+- name: instala pacote l10n
+  ansible.builtin.apt:
+    name: libreoffice-l10n-{{ libreoffice_l10n }}
+  become: true
+  when: libreoffice_l10n
+
+- name: instala grammarcheck
+  ansible.builtin.apt:
+    name: libreoffice-lightproof-{{ libreoffice_lightproof }}
+  become: true
+  when: libreoffice_lightproof
+
+- name: instala tema
+  ansible.builtin.apt:
+    name: libreoffice-style-{{ libreoffice_style }}
+  become: true
+  when: libreoffice_style
