@@ -1,0 +1,4 @@
+- name: instala pacote
+  ansible.builtin.apt:
+    name: bibletime
+  become: true
