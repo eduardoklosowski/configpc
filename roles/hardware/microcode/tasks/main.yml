@@ -1,0 +1,16 @@
+- name: verifica se CPU está definida
+  ansible.builtin.fail:
+    msg: Variável 'cpu' não foi definida
+  when: cpu|length == 0
+
+- name: instala pacote amd
+  ansible.builtin.apt:
+    name: amd64-microcode
+  become: true
+  when: cpu == 'amd'
+
+- name: instala pacote intel
+  ansible.builtin.apt:
+    name: intel-microcode
+  become: true
+  when: cpu == 'intel'
