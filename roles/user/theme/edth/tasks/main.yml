@@ -1,0 +1,16 @@
+- name: cria diretório
+  ansible.builtin.file:
+    path: /usr/share/themes/edth
+    state: directory
+    mode: 0755
+  become: true
+
+- name: baixa tema
+  ansible.builtin.unarchive:
+    remote_src: yes
+    src: https://github.com/eduardoklosowski/edth/archive/refs/heads/main.tar.gz
+    dest: /usr/share/themes/edth
+    extra_opts:
+      - --strip-components=1
+    creates: /usr/share/themes/edth/LICENSE
+  become: true
