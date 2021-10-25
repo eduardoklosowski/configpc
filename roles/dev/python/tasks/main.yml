@@ -1,0 +1,13 @@
+- name: instala pacote
+  ansible.builtin.apt:
+    name:
+      - python3
+      - python3-dev
+      - python3-venv
+  become: true
+
+- name: instala utilitários
+  ansible.builtin.apt:
+    name: ipython3
+  become: true
+  when: python_utils
