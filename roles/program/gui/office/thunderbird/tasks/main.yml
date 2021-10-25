@@ -1,0 +1,10 @@
+- name: instala pacote
+  ansible.builtin.apt:
+    name: thunderbird
+  become: true
+
+- name: instala pacote l10n
+  ansible.builtin.apt:
+    name: thunderbird-l10n-{{ thunderbird_l10n }}
+  become: true
+  when: thunderbird_l10n
