@@ -1,0 +1,23 @@
+- name: adiciona chave do repositório
+  ansible.builtin.apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+  become: true
+
+- name: adiciona repositório
+  ansible.builtin.apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable
+    filename: docker
+  become: true
+
+- name: instala pacote
+  ansible.builtin.apt:
+    name: docker-ce
+  become: true
+
+- name: adiciona usuário no grupo
+  ansible.builtin.user:
+    name: '{{ ansible_user_id }}'
+    groups:
+      - docker
+    append: true
+  become: true
