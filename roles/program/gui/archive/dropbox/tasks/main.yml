@@ -1,0 +1,18 @@
+- name: baixa programa
+  ansible.builtin.unarchive:
+    remote_src: yes
+    src: https://www.dropbox.com/download?plat=lnx.x86_64
+    dest: '{{ ansible_user_dir }}'
+    creates: '{{ ansible_user_dir }}/.dropbox-dist/dropboxd'
+
+- name: copia ícone
+  ansible.builtin.copy:
+    src: dropbox.svg
+    dest: '{{ user_icons_dir }}/dropbox.svg'
+    mode: 0644
+
+- name: copia arquivo .desktop
+  ansible.builtin.template:
+    src: dropbox.desktop.j2
+    dest: '{{ user_applications_dir }}/dropbox.desktop'
+    mode: 0755

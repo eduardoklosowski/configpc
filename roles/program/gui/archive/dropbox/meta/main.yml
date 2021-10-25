@@ -1,0 +1,3 @@
+dependencies:
+  - eduardoklosowski.configpc.user.directory.applications
+  - eduardoklosowski.configpc.user.directory.icons
