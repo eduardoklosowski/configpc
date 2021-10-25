@@ -1,0 +1,7 @@
+- name: clona repositório
+  ansible.builtin.git:
+    repo: https://github.com/pyenv/pyenv.git
+    dest: '{{ ansible_user_dir }}/.pyenv'
+    single_branch: yes
+    version: master
+    depth: 1
