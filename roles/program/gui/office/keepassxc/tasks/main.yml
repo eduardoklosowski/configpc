@@ -1,0 +1,25 @@
+- name: instala pacote
+  ansible.builtin.apt:
+    name: keepassxc
+  become: true
+
+- name: verifica configuração
+  ansible.builtin.stat:
+    path: '{{ user_config_dir }}/keepassxc'
+  register: config
+  when: user_config_dir is defined
+
+- name: cria diretório de configuração
+  ansible.builtin.file:
+    path: '{{ ansible_user_dir }}/.config/keepassxc'
+    state: directory
+    mode: 0755
+  when: user_config_dir is defined and config.stat.exists
+
+- name: configura keepassxc.ini
+  ansible.builtin.file:
+    src: '{{ user_config_dir }}/keepassxc/keepassxc.ini'
+    path: '{{ ansible_user_dir }}/.config/keepassxc/keepassxc.ini'
+    state: link
+    force: true
+  when: user_config_dir is defined and config.stat.exists
