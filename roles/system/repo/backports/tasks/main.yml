@@ -1,0 +1,5 @@
+- name: adiciona repositório
+  ansible.builtin.apt_repository:
+    repo: deb http://deb.debian.org/debian {{ ansible_distribution_release }}-backports {{ backports_component }}
+    filename: backports
+  become: true
